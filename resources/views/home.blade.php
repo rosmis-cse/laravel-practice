@@ -26,7 +26,7 @@
                         <div class="col-md-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ $estate->title }}</h5>
+                                    <h2 class="card-title">{{ $estate->title }}</h2>
                                     <p class="card-text">{{ $estate->created_at }}</p>
                                 </div>
                             </div>

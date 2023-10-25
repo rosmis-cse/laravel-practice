@@ -35,17 +35,15 @@ class EstateController extends Controller
 
         $requestData = $request->only(['title', 'price', 'surface', 'rooms']);
 
-        dd($estate->options());
-
-        if(!!$request->input('options')) {
-            $estate->options()->attach($request->input('options'));
-        }
-
         foreach ($requestData as $key => $value) {
             $estate->{$key} = $value;
         }
 
         $estate->save();
+
+        if($request->has('options')) {
+            $estate->options()->sync($request->input('options'));
+        }
 
         return response('Le bien a été ajouté avec succés');
     }
@@ -59,6 +57,8 @@ class EstateController extends Controller
         foreach ($requestData as $key => $value) {
             $estate->{$key} = $value;
         }
+
+        $estate->options()->sync($request->input('options'));
 
         $estate->save();
 
