@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\EstateController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [EstateController::class, 'index'])->name('home');
 Route::get('/estate/{id}', [EstateController::class, 'findOne'])->name('estate');
+
+Route::get('/login', [LoginController::class, 'index']);
+Route::get('/register', [RegisterController::class, 'index']);

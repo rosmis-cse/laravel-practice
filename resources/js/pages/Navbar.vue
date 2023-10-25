@@ -14,6 +14,7 @@
         >
             Editer
         </a>
+        <a v-if="editable" class="text-slate-700" :href="`/login`"> Login </a>
     </div>
 </template>
 

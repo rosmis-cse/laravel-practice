@@ -11,10 +11,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Inertia\Inertia;
+use Inertia\Response as InertiaResponse;
 
 class EstateController extends Controller
 {
-    public function index()
+    public function index(): InertiaResponse
     {
         $estates = Estate::all();
 
@@ -23,7 +24,7 @@ class EstateController extends Controller
         ]);
     }
 
-    public function findOne(int $id, Request $request)
+    public function findOne(int $id, Request $request): InertiaResponse
     {
         $estate = Estate::findOrFail($id);
 

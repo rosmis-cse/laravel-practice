@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\EstateController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OptionController;
+use App\Http\Controllers\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,3 +37,6 @@ Route::prefix('options')->group(function () {
     Route::patch('{id}', [OptionController::class, 'updateOne']);
     Route::patch('{id}/remove', [OptionController::class, 'removeOne']);
 });
+
+Route::post('/authenticate', [LoginController::class, 'authenticate']);
+Route::post('/register', [RegisterController::class, 'register']);

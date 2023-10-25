@@ -1,8 +1,8 @@
 <template>
-    <div class="flex flex-col gap-8 bg-bg-green-600 items-start">
+    <div class="flex flex-col w-full gap-8 bg-bg-green-600 items-start">
         <Navbar editable :estate-id="estate.id" />
 
-        <div class="max-w-lg flex gap-2 mx-auto flex-wrap">
+        <div class="w-3/4 flex flex-col items-start gap-2 flex-wrap mx-auto">
             <h2>{{ estate.title }}</h2>
             <h3>Prix: {{ estate.price }} €</h3>
             <p>Nombre de chambres: {{ estate.rooms }}</p>
