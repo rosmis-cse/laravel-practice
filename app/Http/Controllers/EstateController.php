@@ -10,14 +10,15 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Inertia\Inertia;
 
 class EstateController extends Controller
 {
-    public function index(): View
+    public function index()
     {
         $estates = Estate::all();
 
-        return view('home', [
+        return Inertia::render('Home', [
             'estates' => $estates
         ]);
     }
@@ -26,7 +27,9 @@ class EstateController extends Controller
     {
         $estate = Estate::findOrFail($id);
 
-        return response($estate);
+        return Inertia::render('Estate', [
+            'estate' => $estate
+        ]);
     }
 
     public function createEstate(EstateRequest $request): Response

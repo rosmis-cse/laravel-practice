@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [EstateController::class, 'index'])->name('home');
+Route::get('/estate/{id}', [EstateController::class, 'findOne'])->name('estate');
