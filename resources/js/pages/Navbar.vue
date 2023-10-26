@@ -10,7 +10,7 @@
         <a
             v-if="editable"
             class="text-slate-700"
-            :href="`/estate/${estateId}/edit`"
+            :href="`/estates/${estateId}/edit`"
         >
             Editer
         </a>
@@ -18,7 +18,7 @@
         <a v-if="!isUserLoggedIn" class="text-slate-700" :href="`/login`">
             Login
         </a>
-        <button v-else class="text-slate-700" @click="logOutUser()">
+        <button v-else class="text-slate-700" @click="logoutUser()">
             Se deconnecter
         </button>
     </div>
@@ -37,7 +37,7 @@ defineProps<{
 
 const isUserLoggedIn = computed(() => page.props.user);
 
-function logOutUser() {
+function logoutUser() {
     router.post("/logout");
 }
 </script>

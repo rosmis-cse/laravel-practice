@@ -18,14 +18,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-//TODO integrate the middleware on protected routes
-// Route::middleware('auth')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
 Route::prefix('estates')->group(function () {
     Route::get('/', [EstateController::class, 'index']);

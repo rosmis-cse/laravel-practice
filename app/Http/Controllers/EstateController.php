@@ -8,6 +8,7 @@ use App\Models\Estate;
 use App\Models\Option;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +32,18 @@ class EstateController extends Controller
         $estate = Estate::findOrFail($id);
 
         return Inertia::render('Estate', [
-            'estate' => $estate
+            'estate' => $estate,
+            'user' => Auth::user()
+        ]);
+    }
+
+    public function showOne(int $id, Request $request): InertiaResponse
+    {
+        $estate = Estate::findOrFail($id);
+
+        return Inertia::render('EstateEdit', [
+            'estate' => $estate,
+            'user' => Auth::user()
         ]);
     }
 
@@ -54,7 +66,7 @@ class EstateController extends Controller
         return response('Le bien a été ajouté avec succés');
     }
 
-    public function updateOne(int $id, Request $request): Response
+    public function updateOne(int $id, Request $request): RedirectResponse
     {
         $estate = Estate::findOrFail($id);
 
@@ -68,7 +80,7 @@ class EstateController extends Controller
 
         $estate->save();
 
-        return response('Le bien a été modifié avec succés');
+        return to_route('estate', ['id' => $estate->id]);
     }
 
     public function removeOne(int $id): Response

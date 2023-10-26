@@ -15,10 +15,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [EstateController::class, 'index'])->name('home');
-Route::get('/estate/{id}', [EstateController::class, 'findOne'])->name('estate');
+Route::get('/', [EstateController::class, 'index'])->name('home');;
 
-Route::get('/login', [AuthController::class, 'showLogin']);
+Route::middleware('auth')->group(function () {
+    Route::prefix('estates')->group(function () {
+        Route::post('/', [EstateController::class, 'createEstate']);
+        Route::patch('{id}', [EstateController::class, 'updateOne']);
+        Route::get('{id}/edit', [EstateController::class, 'showOne']);
+        Route::get('{id}', [EstateController::class, 'findOne'])->name('estate');
+    });
+});
+
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/register', [AuthController::class, 'showRegister']);

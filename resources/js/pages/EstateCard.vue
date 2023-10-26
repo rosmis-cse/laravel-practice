@@ -1,6 +1,6 @@
 <template>
     <a
-        :href="`/estate/${estate.id}`"
+        :href="`/estates/${estate.id}`"
         class="flex flex-col gap-2 items-center p-4 rounded-sm bg-slate-100 min-h-20 hover:shadow-lg transition"
     >
         <h2>{{ estate.title }}</h2>
