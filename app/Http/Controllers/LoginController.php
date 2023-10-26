@@ -36,7 +36,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
  
-            return Inertia::render('Home');
+            return redirect()->route('home');
         } else {
             return redirect()->back()->withErrors('Identifiants incorrects ou erronés');
         } 

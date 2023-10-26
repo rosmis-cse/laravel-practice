@@ -9,7 +9,12 @@
                 @submit.prevent="submit"
                 class="p-40 flex items-center bg-gray-100 flex-col gap-4 justify-center"
             >
-                <h1 class="text-left text-lg w-full">Se connecter</h1>
+                <h1 class="text-left text-lg w-full">
+                    Se connecter
+                    <a href="/register" class="text-sm text-right block"
+                        >ou se créer son compte</a
+                    >
+                </h1>
                 <p v-if="Object.keys(errors).length" class="text-red-500">
                     {{ errors }}
                 </p>
@@ -52,6 +57,6 @@ const formData = ref({
 const errorMessage = ref("");
 
 function submit() {
-    router.post("/api/authenticate", formData.value);
+    router.post("/login", formData.value);
 }
 </script>

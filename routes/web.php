@@ -20,4 +20,8 @@ Route::get('/', [EstateController::class, 'index'])->name('home');
 Route::get('/estate/{id}', [EstateController::class, 'findOne'])->name('estate');
 
 Route::get('/login', [LoginController::class, 'index']);
+Route::post('/login', [LoginController::class, 'authenticate']);
+
 Route::get('/register', [RegisterController::class, 'index']);
+Route::post('/register', [RegisterController::class, 'register']);
+Route::post('/logout', [RegisterController::class, 'logout']);

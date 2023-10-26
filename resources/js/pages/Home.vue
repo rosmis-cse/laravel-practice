@@ -23,5 +23,6 @@ defineProps<{
         surface: number;
         price: number;
     };
+    user?: any;
 }>();
 </script>

@@ -22,6 +22,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//TODO integrate the middleware on protected routes
+// Route::middleware('auth')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
 Route::prefix('estates')->group(function () {
     Route::get('/', [EstateController::class, 'index']);
     Route::post('/', [EstateController::class, 'createEstate']);
@@ -37,6 +42,3 @@ Route::prefix('options')->group(function () {
     Route::patch('{id}', [OptionController::class, 'updateOne']);
     Route::patch('{id}/remove', [OptionController::class, 'removeOne']);
 });
-
-Route::post('/authenticate', [LoginController::class, 'authenticate']);
-Route::post('/register', [RegisterController::class, 'register']);

@@ -12,6 +12,13 @@
                 <h1 class="text-left text-lg w-full">Créer son compte</h1>
 
                 <input
+                    type="text"
+                    v-model="formData.name"
+                    required
+                    placeholder="Votre nom"
+                    class="border-black p-2 rounded-md border"
+                />
+                <input
                     type="email"
                     v-model="formData.email"
                     required
@@ -37,11 +44,8 @@ import { router } from "@inertiajs/vue3";
 import Navbar from "./Navbar.vue";
 import { ref } from "vue";
 
-defineProps<{
-    errors?: string;
-}>();
-
 const formData = ref({
+    name: null,
     email: null,
     password: null,
 });
@@ -49,6 +53,6 @@ const formData = ref({
 const errorMessage = ref("");
 
 function submit() {
-    router.post("/api/register", formData.value);
+    router.post("/register", formData.value);
 }
 </script>

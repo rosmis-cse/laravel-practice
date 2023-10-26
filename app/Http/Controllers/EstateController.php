@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
 
@@ -20,7 +21,8 @@ class EstateController extends Controller
         $estates = Estate::all();
 
         return Inertia::render('Home', [
-            'estates' => $estates
+            'estates' => $estates,
+            'user' => Auth::user()
         ]);
     }
 
