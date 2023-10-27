@@ -1,8 +1,13 @@
 <?php
 
+use App\Enums\UserRole;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EstateController;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,11 +23,24 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [EstateController::class, 'index'])->name('home');;
 
 Route::middleware('auth')->group(function () {
+    
+
     Route::prefix('estates')->group(function () {
         Route::post('/', [EstateController::class, 'createEstate']);
         Route::patch('{id}', [EstateController::class, 'updateOne']);
         Route::get('{id}/edit', [EstateController::class, 'showOne']);
+        Route::get('/create', [AdminController::class, 'showCreateEstate']);
+
         Route::get('{id}', [EstateController::class, 'findOne'])->name('estate');
+    });
+
+    Route::get('/admin', [AdminController::class, 'showAdmin'])->name('admin');
+    Route::get('/roles', function () {
+        return Inertia::render('Roles', [
+            'user' => Auth::user(),
+            'roles' => UserRole::roles(),
+            'users' => User::all()
+        ]);
     });
 });
 

@@ -4,7 +4,7 @@
     >
         <div class="flex gap-4">
             <a class="text-slate-700" href="/">Home</a>
-            <a class="text-slate-700" href="localhost/admin">Administration</a>
+            <a class="text-slate-700" href="/admin">Administration</a>
         </div>
 
         <a

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserRole as EnumsUserRole;
 use App\Http\Requests\RegisterRequest;
+use App\Models\Role;
 use App\Models\User;
+use App\Models\UserRole;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -60,6 +63,11 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
 
+        // assign default role to newly created user to "user" role
+        $user->roles()->create([
+            "role" => EnumsUserRole::User
+        ]);
+
         Auth::login($user);
 
         return redirect()->route('home');
@@ -70,5 +78,12 @@ class AuthController extends Controller
         Auth::logout();
 
         return redirect()->route('home');
+    }
+
+    public function getAssociatedRolesUser(int $id)
+    {
+        $user = User::findOrFail($id);
+
+        return $user->roles;
     }
 }

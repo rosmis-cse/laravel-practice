@@ -47,7 +47,7 @@ class EstateController extends Controller
         ]);
     }
 
-    public function createEstate(EstateRequest $request): Response
+    public function createEstate(EstateRequest $request): RedirectResponse
     {
         $estate = new Estate();
 
@@ -63,7 +63,7 @@ class EstateController extends Controller
             $estate->options()->sync($request->input('options'));
         }
 
-        return response('Le bien a été ajouté avec succés');
+        return to_route('estate', ['id' => $estate->id]);
     }
 
     public function updateOne(int $id, Request $request): RedirectResponse

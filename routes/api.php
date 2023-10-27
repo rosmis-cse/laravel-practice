@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EstateController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,3 +36,6 @@ Route::prefix('options')->group(function () {
     Route::patch('{id}', [OptionController::class, 'updateOne']);
     Route::patch('{id}/remove', [OptionController::class, 'removeOne']);
 });
+
+Route::post('/roles', [RoleController::class, 'createRole']);
+Route::get('/roles/{id}', [AuthController::class, 'getAssociatedRolesUser']);

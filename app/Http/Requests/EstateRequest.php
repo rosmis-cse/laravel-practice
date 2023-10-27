@@ -15,9 +15,9 @@ class EstateRequest extends FormRequest
     {
         return [
             'title' => 'required|string',
-            'price' => 'required|string',
-            'surface' => 'required|string',
-            'rooms' => 'required|string',
+            'price' => 'required|integer',
+            'surface' => 'required|integer',
+            'rooms' => 'required|integer',
             'options' => 'nullable|array',
         ];
     }
