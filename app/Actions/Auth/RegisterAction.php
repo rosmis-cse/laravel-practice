@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Services\Dto\RegisterDto;
 use Illuminate\Support\Facades\Auth;
 
-class RegisterAction
+final class RegisterAction
 {
     /**
      * Register the user

@@ -1,20 +1,22 @@
 <script lang="ts" setup>
 import Navbar from "./Navbar.vue";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { router } from "@inertiajs/vue3";
 
 const props = defineProps<{
     roles: any;
-    users: any;
+    users: any[];
 }>();
 
 const selectedUserId = ref<number>(undefined);
 
-function getAssociatedRoles() {
-    const response = router.get(`/api/roles/${selectedUserId.value}`);
+function saveUserRole(index: number) {}
 
-    console.log("response", response);
-}
+// const selectedRolesByUser = computed(() => {
+//     props.users.reduce((acc, currentValue) => {
+
+//     })
+// })
 </script>
 
 <template>
@@ -22,23 +24,53 @@ function getAssociatedRoles() {
         <Navbar />
 
         <div class="h-full w-full gap-4 flex items-center justify-start">
-            <div
-                class="flex flex-col items-start ml-14"
-                :class="{
-                    'w-1/2': !selectedUserId,
-                    'w-full flex-1': selectedUserId,
-                }"
-            >
-                <h1 v-if="!selectedUserId">
-                    Veuillez selectionner un utilisateur pour en modifier ses
-                    roles
-                </h1>
+            <div class="flex items-center justify-center w-full h-full ml-14">
+                <table>
+                    <thead class="border-b border-black">
+                        <td class="border-r p-2 border-black">Utilisateur</td>
+                        <td class="border-r p-2 border-black">
+                            Is user user ?
+                        </td>
+                        <td class="border-r p-2 border-black">
+                            Is user admin ?
+                        </td>
+                        <td class="border-r p-2 border-black">Sauvegarde</td>
+                    </thead>
 
-                <pre v-for="(role, index) in roles" :key="index">
-                    {{ role }}
-                </pre>
+                    <tbody>
+                        <tr
+                            v-for="(user, index) in users"
+                            :key="`user-${index}`"
+                        >
+                            <td class="border-r p-2 border-black">
+                                {{ user.name }}
+                            </td>
 
-                <div class="border-t border-black w-full mt-4">
+                            <td class="border-r p-2 border-black">
+                                <input type="checkbox" />
+                            </td>
+                            <td class="border-r p-2 border-black">
+                                <input type="checkbox" />
+                            </td>
+                            <td class="border-r p-2 border-black">
+                                <button @click="saveUserRole(user.id)">
+                                    Sauvegarder
+                                </button>
+                            </td>
+
+                            <!-- <template
+                                v-for="(role, index) in user.roles"
+                                :key="`role-${index}`"
+                            >
+                                <td>{{ role.role }}</td>
+                            </template> -->
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- <div
+                    class="border-t border-black w-full flex flex-col items-start mt-4"
+                >
                     <button
                         v-for="(user, index) in users"
                         :key="`user-${index}`"
@@ -50,7 +82,7 @@ function getAssociatedRoles() {
                     >
                         {{ user.name }}
                     </button>
-                </div>
+                </div> -->
             </div>
 
             <div

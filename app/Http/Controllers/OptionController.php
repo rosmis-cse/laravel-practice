@@ -2,61 +2,60 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OptionRequest;
+use App\Http\Resources\OptionRessource;
 use App\Models\Estate;
 use App\Models\Option;
 use Exception;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class OptionController extends Controller
 {
-    public function index(): Response
+    public function index(): JsonResponse
     {
         $options = Option::all();
 
-        return response($options);
+        return OptionRessource::collection($options)->response();
     }
 
-    public function findOne(int $id, Request $request)
+    public function findOne(int $id, Request $request): JsonResponse
     {
         $option = Estate::findOrFail($id);
 
-        return response($option);
+        return OptionRessource::make($option)->response();
     }
 
-    public function createOption(Request $request): Response
+    public function createOption(OptionRequest $request): JsonResponse
     {
-        if(!$request->input('title')) throw new Exception('Option\'s title not provided');
-
         $option = new Option();
 
-        $option->title = $request->input('title');
+        $option->title = (string)$request->string('title');
 
         $option->save();
 
-        return response('L\'option a été ajouté avec succés');
+        return OptionRessource::make($option)->response()->setStatusCode(JsonResponse::HTTP_CREATED);
     }
 
-    public function updateOne(int $id, Request $request): Response
+    public function updateOne(int $id, OptionRequest $request): JsonResponse
     {
-        if(!$request->input('title')) throw new Exception('Option\'s title not provided');
-
         $option = Option::findOrFail($id);
 
-        $option->title = $request->input('title');
+        $option->title = (string)$request->string('title');
 
         $option->save();
 
-        return response('L\'option a été modifié avec succés');
+        return OptionRessource::make($option)->response();
     }
 
-    public function removeOne(int $id): Response
+    public function removeOne(int $id): JsonResponse
     {
         $option = Option::findOrFail($id);
 
         $option->delete();
 
-        return response('L\'option a été supprimé avec succés');
+        return new JsonResponse(status: JsonResponse::HTTP_NO_CONTENT);
     }
 }

@@ -39,8 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/roles', function () {
         return Inertia::render('Roles', [
             'user' => Auth::user(),
-            'roles' => UserRole::cases(),
-            'users' => User::all()
+            'roles' => UserRole::Admin,
+            'users' => User::with('roles')->get()
         ]);
     });
 });
