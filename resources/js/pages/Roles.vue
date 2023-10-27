@@ -1,3 +1,22 @@
+<script lang="ts" setup>
+import Navbar from "./Navbar.vue";
+import { ref } from "vue";
+import { router } from "@inertiajs/vue3";
+
+const props = defineProps<{
+    roles: any;
+    users: any;
+}>();
+
+const selectedUserId = ref<number>(undefined);
+
+function getAssociatedRoles() {
+    const response = router.get(`/api/roles/${selectedUserId.value}`);
+
+    console.log("response", response);
+}
+</script>
+
 <template>
     <div class="flex flex-col gap-8 bg-bg-green-600 items-start">
         <Navbar />
@@ -14,6 +33,10 @@
                     Veuillez selectionner un utilisateur pour en modifier ses
                     roles
                 </h1>
+
+                <pre v-for="(role, index) in roles" :key="index">
+                    {{ role }}
+                </pre>
 
                 <div class="border-t border-black w-full mt-4">
                     <button
@@ -54,22 +77,3 @@
         </div>
     </div>
 </template>
-
-<script lang="ts" setup>
-import Navbar from "./Navbar.vue";
-import { ref } from "vue";
-import { router } from "@inertiajs/vue3";
-
-defineProps<{
-    roles: any;
-    users: any;
-}>();
-
-const selectedUserId = ref<number>(undefined);
-
-function getAssociatedRoles() {
-    const response = router.get(`/api/roles/${selectedUserId.value}`);
-
-    console.log("response", response);
-}
-</script>

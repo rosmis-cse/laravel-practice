@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserRole as EnumsUserRole;
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserRole;
+use App\Services\AuthService;
+use App\Services\Dto\RegisterDto;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +18,11 @@ use Inertia\Response as InertiaResponse;
 
 class AuthController extends Controller
 {
+    public function __construct(
+        private readonly AuthService $authService
+    )
+    {}
+
     /**
      * Register page
      */
@@ -34,12 +42,9 @@ class AuthController extends Controller
     /**
      * Handle an authentication attempt.
      */
-    public function login(Request $request): RedirectResponse
+    public function login(LoginRequest $request): RedirectResponse
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+        $credentials = $request->validated();
  
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
@@ -55,20 +60,13 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request): RedirectResponse
     {
-        $data = $request->validated();
+        $registerDto = new RegisterDto(
+            name: $request['name'],
+            email: $request['email'],
+            password: bcrypt($request['password']),
+        );
 
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
-
-        // assign default role to newly created user to "user" role
-        $user->roles()->create([
-            "role" => EnumsUserRole::User
-        ]);
-
-        Auth::login($user);
+        $this->authService->register($registerDto);
 
         return redirect()->route('home');
     }

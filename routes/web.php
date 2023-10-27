@@ -35,10 +35,11 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/admin', [AdminController::class, 'showAdmin'])->name('admin');
+
     Route::get('/roles', function () {
         return Inertia::render('Roles', [
             'user' => Auth::user(),
-            'roles' => UserRole::roles(),
+            'roles' => UserRole::cases(),
             'users' => User::all()
         ]);
     });

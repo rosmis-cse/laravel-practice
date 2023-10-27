@@ -7,11 +7,11 @@ enum UserRole: string
     case User = "user";
     case Admin = "admin";
 
-    static function roles(): array
+    public function roles(): string
     {
-        return [
-            'user' => self::User->value,
-            'admin' => self::Admin->value,
-        ];
+        return match($this) {
+            self::Admin => 'Administrateur',
+            self::User => 'Utilisateur'
+        };
     }
 }
