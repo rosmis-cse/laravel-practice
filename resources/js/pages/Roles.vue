@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import Navbar from "./Navbar.vue";
-import { ref, computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { router } from "@inertiajs/vue3";
 
 const props = defineProps<{
@@ -12,16 +12,37 @@ const selectedUserId = ref<number>(undefined);
 
 function saveUserRole(index: number) {}
 
-// const selectedRolesByUser = computed(() => {
-//     props.users.reduce((acc, currentValue) => {
+const usersCopy = ref(props.users);
 
-//     })
-// })
+const selectedRolesByUser = computed(() => {
+    return props.users.reduce((acc, currentValue) => {
+        const currentUserRole: string[] = currentValue.roles.map(
+            (role) => role.role
+        );
+
+        acc = {
+            ...acc,
+            [currentValue.id]: {
+                user: currentUserRole.includes("user"),
+                admin: currentUserRole.includes("admin"),
+            },
+        };
+        console.log(currentValue.id);
+
+        return acc;
+    });
+});
+
+console.log(selectedRolesByUser.value);
 </script>
 
 <template>
     <div class="flex flex-col gap-8 bg-bg-green-600 items-start">
         <Navbar />
+
+        <pre>
+            {{ selectedRolesByUser }}
+        </pre>
 
         <div class="h-full w-full gap-4 flex items-center justify-start">
             <div class="flex items-center justify-center w-full h-full ml-14">

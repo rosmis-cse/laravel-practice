@@ -31,6 +31,8 @@ class EstateController extends Controller
     {
         $estate = Estate::findOrFail($id);
 
+        $this->authorize('view', $estate);
+
         return Inertia::render('Estate', [
             'estate' => $estate,
             'user' => Auth::user()
