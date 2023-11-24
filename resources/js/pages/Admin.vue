@@ -8,7 +8,7 @@
                 class="p-2 border border-black rounded-md"
                 >Ajouter une option de bien immo</a
             >
-            <a href="./roles" class="p-2 border border-black rounded-md"
+            <a href="./admin/roles" class="p-2 border border-black rounded-md"
                 >Gérer les rôles</a
             >
         </div>

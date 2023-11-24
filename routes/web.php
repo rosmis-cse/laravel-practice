@@ -36,10 +36,8 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('admin')->group(function () {
         Route::get('/', [AdminController::class, 'showAdmin'])->name('admin');
-        Route::get('/roles', [AdminController::class, 'showRoles']);
+        Route::get('/roles', [AdminController::class, 'showRoles'])->name('role');
     });
-
-    
 });
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

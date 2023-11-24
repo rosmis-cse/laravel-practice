@@ -4,11 +4,9 @@ import { ref, onMounted, computed } from "vue";
 import { router } from "@inertiajs/vue3";
 
 const props = defineProps<{
-    roles: any;
     users: any[];
+    currentUser: any;
 }>();
-
-const initialUsers = ref(props.users);
 
 const selectedRolesByUser = ref(
     props.users.reduce((acc, currentValue) => {
@@ -35,17 +33,15 @@ function saveUserRoles(userId: number) {
         selectedRolesByUser.value[userId]
     ).filter((role) => selectedRolesByUser.value[userId][role]);
 
-    router.patch(`/api/admin/roles/${userId}`, { roles: selectedUserRoles });
+    return router.patch(`/api/admin/roles/${userId}`, {
+        roles: selectedUserRoles,
+    });
 }
 </script>
 
 <template>
     <div class="flex flex-col gap-8 bg-bg-green-600 items-start">
         <Navbar />
-
-        <!-- <pre>
-            {{ selectedRolesByUser[1].user }}
-        </pre> -->
 
         <div class="h-full w-full gap-4 flex items-center justify-start">
             <div class="flex items-center justify-center w-full h-full ml-14">
@@ -82,38 +78,20 @@ function saveUserRoles(userId: number) {
                                     v-model="selectedRolesByUser[user.id].admin"
                                     type="checkbox"
                                 />
+                                <!-- <input
+                                    v-model="selectedRolesByUser[user.id].admin"
+                                    type="checkbox"
+                                    :disabled="user.id === currentUser.id"
+                                /> -->
                             </td>
                             <td class="border-r p-2 border-black">
                                 <button @click="saveUserRoles(user.id)">
                                     Sauvegarder
                                 </button>
                             </td>
-
-                            <!-- <template
-                                v-for="(role, index) in user.roles"
-                                :key="`role-${index}`"
-                            >
-                                <td>{{ role.role }}</td>
-                            </template> -->
                         </tr>
                     </tbody>
                 </table>
-
-                <!-- <div
-                    class="border-t border-black w-full flex flex-col items-start mt-4"
-                >
-                    <button
-                        v-for="(user, index) in users"
-                        :key="`user-${index}`"
-                        class="underline"
-                        @click="
-                            selectedUserId = user.id;
-                            getAssociatedRoles();
-                        "
-                    >
-                        {{ user.name }}
-                    </button>
-                </div> -->
             </div>
         </div>
     </div>

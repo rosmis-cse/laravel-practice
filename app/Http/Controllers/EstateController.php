@@ -21,7 +21,7 @@ class EstateController extends Controller
 
         return Inertia::render('Home', [
             'estates' => $estates,
-            'user' => Auth::user()
+            'currentUser' => Auth::user()
         ]);
     }
 
@@ -33,35 +33,34 @@ class EstateController extends Controller
 
         return Inertia::render('Estate', [
             'estate' => $estate,
-            'user' => Auth::user()
+            'currentUser' => Auth::user()
         ]);
         
     }
 
-    public function showEdit(int $id): InertiaResponse|RedirectResponse
+    public function showEdit(int $id): InertiaResponse
     {
         $estate = Estate::findOrFail($id);
 
         $policy = Gate::inspect('update', $estate);
 
         if(!$policy->allowed()) {
-            return to_route('estate', $id)
-                ->with('error', 'Vous n\'etes pas autorisé à éditer cette ressource');
+            return Inertia::render('Estate', [
+                'estate' => $estate,
+                'currentUser' => Auth::user(),
+                'error' => 'Vous n\'etes pas autorisé à modifier un bien que vous n\'avez pas crée'
+            ]);
         }
 
         return Inertia::render('EstateEdit', [
             'estate' => $estate,
-            'user' => Auth::user()
+            'currentUser' => Auth::user()
         ]);
     }
 
     public function create(EstateRequest $request): RedirectResponse
     {
         $estate = new Estate();
-
-        // $test = Gate::inspect('create', $estate);
-
-        // dd($test);
 
         $this->authorize('create', $estate);
 

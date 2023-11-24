@@ -52,7 +52,7 @@ defineProps<{
     estateId?: number;
 }>();
 
-const isUserLoggedIn = computed(() => page.props.user);
+const isUserLoggedIn = computed(() => page.props.currentUser);
 
 function logoutUser() {
     router.post("/logout");

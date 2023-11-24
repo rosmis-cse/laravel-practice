@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\UserRole;
 use App\Http\Requests\UserRoleRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Response as InertiaResponse;
 use Inertia\Inertia;
@@ -15,16 +15,15 @@ class AdminController extends Controller
     public function showAdmin(): InertiaResponse
     {
         return Inertia::render('Admin', [
-            'user' => Auth::user()
+            'currentUser' => Auth::user()
         ]);
     }
 
     public function showRoles(): InertiaResponse
     {
         return Inertia::render('Roles', [
-            'user' => Auth::user(),
-            'roles' => UserRole::Admin,
-            'users' => User::with('roles')->get()
+            'users' => User::with('roles')->get(),
+            'currentUser' => Auth::user()
         ]);
     }
 
@@ -35,23 +34,19 @@ class AdminController extends Controller
         ]);
     }
 
-    public function saveUserRole(UserRoleRequest $request, int $id)
+    public function saveUserRole(UserRoleRequest $request, int $id): RedirectResponse
     {
-
-        $roles = $request->validated();
+        $roles = $request->validated()['roles'];
 
         $user = User::findOrFail($id);
+        $isUserAdmin = $user->hasRole(UserRole::Admin);
 
-        //TODO finish this shit
-        foreach($roles as $role) {
-            if(!$user->roles()->where('role', $role)->first()) {
-                $user->roles()->create([
-                    'role' => $role
-                ]);
-            }
-
-            
+        if(in_array('admin', $roles) && !$isUserAdmin) {
+            $user->roles()->create(['role' => UserRole::Admin]);
+        } else if ($isUserAdmin) {
+            $user->roles()->where('role', UserRole::Admin)->delete();
         }
-        dd($user->roles()->where('role', UserRole::User)->first());
+
+        return to_route('admin');
     }
 }
