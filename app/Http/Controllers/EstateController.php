@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EstateRequest;
 use App\Models\Estate;
-use App\Models\Option;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

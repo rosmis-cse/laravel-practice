@@ -2,7 +2,7 @@
     <div class="flex flex-col gap-8 bg-bg-green-600 items-start">
         <Navbar />
 
-        <div v-if="estates" class="max-w-md flex gap-2 mx-auto flex-wrap">
+        <div v-if="estates" class="grid grid-cols-3 gap-4 mx-48">
             <EstateCard
                 v-for="(estate, index) in estates"
                 :estate="estate"
