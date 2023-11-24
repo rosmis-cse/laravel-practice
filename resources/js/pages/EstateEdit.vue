@@ -48,6 +48,7 @@ const props = defineProps<{
         surface: number;
         price: number;
     };
+    user: any;
 }>();
 
 const { price, title, surface, rooms } = props.estate;

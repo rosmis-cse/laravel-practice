@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EstateRequest extends FormRequest
+class UserRoleRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,12 +14,7 @@ class EstateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string',
-            'price' => 'required|integer',
-            'surface' => 'required|integer',
-            'rooms' => 'required|integer',
-            'options' => 'nullable|array',
-            'user_id' => 'required|integer',
+            'roles' => 'required|array'
         ];
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EstateController;
 use App\Http\Controllers\LoginController;
@@ -22,12 +23,17 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix('estates')->group(function () {
-    Route::get('/', [EstateController::class, 'index']);
-    Route::post('/', [EstateController::class, 'createEstate']);
-    Route::get('{id}', [EstateController::class, 'findOne']);
+    //TODO delete these unused routes once all tested
+
+    // Route::get('/', [EstateController::class, 'index']);
+    // Route::get('{id}', [EstateController::class, 'view']);
+
+    Route::post('/', [EstateController::class, 'create']);
     Route::patch('{id}', [EstateController::class, 'updateOne']);
     Route::patch('{id}/remove', [EstateController::class, 'removeOne']);
 });
+
+
 
 Route::prefix('options')->group(function () {
     Route::get('/', [OptionController::class, 'index']);
@@ -37,5 +43,10 @@ Route::prefix('options')->group(function () {
     Route::patch('{id}/remove', [OptionController::class, 'removeOne']);
 });
 
-Route::post('/roles', [RoleController::class, 'createRole']);
+Route::prefix('admin')->group(function () {
+    Route::patch('/roles/{id}', [AdminController::class, 'saveUserRole']);
+});
+
+
+
 Route::get('/roles/{id}', [AuthController::class, 'getAssociatedRolesUser']);

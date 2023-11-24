@@ -4,17 +4,12 @@
 
         <div class="h-full w-full gap-4 flex items-center justify-center">
             <a
-                href="../estates/create"
-                class="p-2 border border-black rounded-md"
-                >Ajouter un bien immobilier</a
-            >
-            <a href="../roles" class="p-2 border border-black rounded-md"
-                >Gérer les rôles</a
-            >
-            <a
-                href="../estates/create"
+                href="../options/create"
                 class="p-2 border border-black rounded-md"
                 >Ajouter une option de bien immo</a
+            >
+            <a href="./roles" class="p-2 border border-black rounded-md"
+                >Gérer les rôles</a
             >
         </div>
     </div>

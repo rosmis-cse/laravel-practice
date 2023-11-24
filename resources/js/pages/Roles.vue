@@ -8,41 +8,44 @@ const props = defineProps<{
     users: any[];
 }>();
 
-const selectedUserId = ref<number>(undefined);
+const initialUsers = ref(props.users);
 
-function saveUserRole(index: number) {}
-
-const usersCopy = ref(props.users);
-
-const selectedRolesByUser = computed(() => {
-    return props.users.reduce((acc, currentValue) => {
+const selectedRolesByUser = ref(
+    props.users.reduce((acc, currentValue) => {
         const currentUserRole: string[] = currentValue.roles.map(
             (role) => role.role
         );
 
-        acc = {
-            ...acc,
-            [currentValue.id]: {
-                user: currentUserRole.includes("user"),
-                admin: currentUserRole.includes("admin"),
-            },
-        };
-        console.log(currentValue.id);
+        if (!acc[currentValue.id]) {
+            acc = {
+                ...acc,
+                [currentValue.id]: {
+                    user: currentUserRole.includes("user"),
+                    admin: currentUserRole.includes("admin"),
+                },
+            };
+        }
 
         return acc;
-    });
-});
+    }, {})
+);
 
-console.log(selectedRolesByUser.value);
+function saveUserRoles(userId: number) {
+    const selectedUserRoles = Object.keys(
+        selectedRolesByUser.value[userId]
+    ).filter((role) => selectedRolesByUser.value[userId][role]);
+
+    router.patch(`/api/admin/roles/${userId}`, { roles: selectedUserRoles });
+}
 </script>
 
 <template>
     <div class="flex flex-col gap-8 bg-bg-green-600 items-start">
         <Navbar />
 
-        <pre>
-            {{ selectedRolesByUser }}
-        </pre>
+        <!-- <pre>
+            {{ selectedRolesByUser[1].user }}
+        </pre> -->
 
         <div class="h-full w-full gap-4 flex items-center justify-start">
             <div class="flex items-center justify-center w-full h-full ml-14">
@@ -68,13 +71,20 @@ console.log(selectedRolesByUser.value);
                             </td>
 
                             <td class="border-r p-2 border-black">
-                                <input type="checkbox" />
+                                <input
+                                    v-model="selectedRolesByUser[user.id].user"
+                                    type="checkbox"
+                                    disabled
+                                />
                             </td>
                             <td class="border-r p-2 border-black">
-                                <input type="checkbox" />
+                                <input
+                                    v-model="selectedRolesByUser[user.id].admin"
+                                    type="checkbox"
+                                />
                             </td>
                             <td class="border-r p-2 border-black">
-                                <button @click="saveUserRole(user.id)">
+                                <button @click="saveUserRoles(user.id)">
                                     Sauvegarder
                                 </button>
                             </td>
@@ -104,28 +114,6 @@ console.log(selectedRolesByUser.value);
                         {{ user.name }}
                     </button>
                 </div> -->
-            </div>
-
-            <div
-                v-if="selectedUserId"
-                class="flex flex-col items-start mr-14"
-                :class="{
-                    'w-full flex-1': selectedUserId,
-                }"
-            >
-                <p v-if="!selectedUserId">
-                    Veuillez selectionner un utilisateur pour en modifier ses
-                    roles
-                </p>
-
-                <div class="border-t border-black w-full mt-4">
-                    <button
-                        v-for="(user, index) in users"
-                        :key="`user-${index}`"
-                    >
-                        {{ user.name }}
-                    </button>
-                </div>
             </div>
         </div>
     </div>

@@ -4,6 +4,7 @@ use App\Enums\UserRole;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EstateController;
+use App\Http\Controllers\UserRoleController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -23,26 +24,22 @@ use Inertia\Inertia;
 Route::get('/', [EstateController::class, 'index'])->name('home');;
 
 Route::middleware('auth')->group(function () {
-    
 
     Route::prefix('estates')->group(function () {
         Route::post('/', [EstateController::class, 'createEstate']);
         Route::patch('{id}', [EstateController::class, 'updateOne']);
-        Route::get('{id}/edit', [EstateController::class, 'showOne']);
+        Route::get('{id}/edit', [EstateController::class, 'showEdit']);
         Route::get('/create', [AdminController::class, 'showCreateEstate']);
 
-        Route::get('{id}', [EstateController::class, 'findOne'])->name('estate');
+        Route::get('{id}', [EstateController::class, 'view'])->name('estate');
     });
 
-    Route::get('/admin', [AdminController::class, 'showAdmin'])->name('admin');
-
-    Route::get('/roles', function () {
-        return Inertia::render('Roles', [
-            'user' => Auth::user(),
-            'roles' => UserRole::Admin,
-            'users' => User::with('roles')->get()
-        ]);
+    Route::prefix('admin')->group(function () {
+        Route::get('/', [AdminController::class, 'showAdmin'])->name('admin');
+        Route::get('/roles', [AdminController::class, 'showRoles']);
     });
+
+    
 });
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

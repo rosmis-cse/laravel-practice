@@ -22,15 +22,15 @@ class EstatePolicy
      */
     public function view(User $user, Estate $estate): bool
     {
-        return $user->roles()->where('role', UserRole::Admin)->exists();
+        return $user->roles()->where('role', UserRole::User)->exists();
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, Estate $estate): bool
     {
-        //
+        return $user->roles()->where('role', UserRole::User)->exists();
     }
 
     /**
@@ -38,7 +38,9 @@ class EstatePolicy
      */
     public function update(User $user, Estate $estate): bool
     {
-        //
+        if($user->roles()->where('role', UserRole::Admin)->exists()) return true;
+
+        return $estate->user_id === $user->id;
     }
 
     /**
@@ -46,7 +48,9 @@ class EstatePolicy
      */
     public function delete(User $user, Estate $estate): bool
     {
-        //
+        if($user->roles()->where('role', UserRole::Admin)->exists()) return true;
+
+        return $estate->user_id === $user->id;
     }
 
     /**

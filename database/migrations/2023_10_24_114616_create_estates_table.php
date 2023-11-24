@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('price');
             $table->integer('surface');
             $table->integer('rooms');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->softDeletes();
         });
     }

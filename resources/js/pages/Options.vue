@@ -13,28 +13,7 @@
                     type="text"
                     v-model="formData.title"
                     required
-                    placeholder="Titre"
-                    class="border-black p-2 rounded-md border"
-                />
-                <input
-                    type="number"
-                    v-model="formData.surface"
-                    required
-                    placeholder="Surface"
-                    class="border-black p-2 rounded-md border"
-                />
-                <input
-                    type="number"
-                    v-model="formData.price"
-                    required
-                    placeholder="Prix"
-                    class="border-black p-2 rounded-md border"
-                />
-                <input
-                    type="number"
-                    v-model="formData.rooms"
-                    required
-                    placeholder="Nb de chambres"
+                    placeholder="Titre de l'option"
                     class="border-black p-2 rounded-md border"
                 />
 

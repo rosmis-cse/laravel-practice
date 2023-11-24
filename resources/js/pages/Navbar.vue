@@ -15,12 +15,29 @@
             Editer
         </a>
 
-        <a v-if="!isUserLoggedIn" class="text-slate-700" :href="`/login`">
-            Login
-        </a>
-        <button v-else class="text-slate-700" @click="logoutUser()">
-            Se deconnecter
-        </button>
+        <div class="flex gap-4">
+            <template v-if="isUserLoggedIn">
+                <a
+                    href="../estates/create"
+                    class="p-2 border border-black rounded-md"
+                    >Créer une offre</a
+                >
+                <button
+                    class="p-2 border border-black rounded-md"
+                    @click="logoutUser()"
+                >
+                    Se deconnecter
+                </button>
+            </template>
+
+            <a
+                v-else
+                class="p-2 border border-black rounded-md"
+                :href="`/login`"
+            >
+                Login
+            </a>
+        </div>
     </div>
 </template>
 
